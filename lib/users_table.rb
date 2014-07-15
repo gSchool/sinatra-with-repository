@@ -20,4 +20,14 @@ class UsersTable
 
     @database_connection.sql(find_sql).first
   end
+
+  def find_by(username, password)
+    find_by_sql = <<-SQL
+      SELECT * FROM users
+      WHERE username = '#{username}'
+      AND password = '#{password}'
+    SQL
+
+    @database_connection.sql(find_by_sql).first
+  end
 end

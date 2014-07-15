@@ -19,13 +19,7 @@ class App < Sinatra::Application
   end
 
   post "/login" do
-    login_sql = <<-SQL
-      SELECT * FROM users
-      WHERE username = '#{params[:username]}'
-      AND password = '#{params[:password]}'
-    SQL
-
-    user = @database_connection.sql(login_sql).first
+    user = @users_table.find_by(params[:username], params[:password])
 
     if user
       session[:id] = user.fetch("id")
