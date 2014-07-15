@@ -38,17 +38,21 @@ class App < Sinatra::Application
   end
 
   get "/register" do
-    erb :register
+    erb :register, :locals => {:errors => ""}
   end
 
   post "/register" do
-    insert_user_sql = <<-SQL
-      INSERT INTO users (username, password)
-      VALUES ('#{params[:username]}', '#{params[:password]}')
-    SQL
+    if params[:username] == ""
+      erb :register, :locals => {:errors => "Username is required"}
+    else
+      insert_user_sql = <<-SQL
+        INSERT INTO users (username, password)
+        VALUES ('#{params[:username]}', '#{params[:password]}')
+      SQL
 
-    @database_connection.sql(insert_user_sql)
+      @database_connection.sql(insert_user_sql)
 
-    redirect "/"
+      redirect "/"
+    end
   end
 end

@@ -1,3 +1,7 @@
+<% if errors %>
+    <p><%= errors %></p>
+<% end %>
+
 <form action="/register" method="POST">
     <label for=username>Username</label>
     <input type=text id=username name=username>
