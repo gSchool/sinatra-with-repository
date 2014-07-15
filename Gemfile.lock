@@ -14,6 +14,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    addressable (2.3.6)
     arel (5.0.1.20140414130214)
     builder (3.2.2)
     capybara (2.4.1)
@@ -28,6 +29,8 @@ GEM
       pg (~> 0.17.1)
     i18n (0.6.11)
     json (1.8.1)
+    launchy (2.4.2)
+      addressable (~> 2.3)
     mime-types (2.3)
     mini_portile (0.6.0)
     minitest (5.4.0)
@@ -35,6 +38,8 @@ GEM
       mini_portile (= 0.6.0)
     pg (0.17.1)
     rack (1.5.2)
+    rack-flash (0.1.2)
+      rack
     rack-protection (1.5.3)
       rack
     rack-test (0.6.2)
@@ -68,5 +73,7 @@ PLATFORMS
 DEPENDENCIES
   capybara
   gschool_database_connection
+  launchy
+  rack-flash
   rspec
   sinatra
