@@ -42,7 +42,7 @@ class App < Sinatra::Application
     if params[:username] == ""
       erb :register, :locals => {:errors => "Username is required"}
     else
-      @users_table.create(params)
+      @users_table.create(params[:username], params[:password])
 
       redirect "/"
     end

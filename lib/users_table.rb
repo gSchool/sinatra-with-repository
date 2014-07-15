@@ -3,10 +3,10 @@ class UsersTable
     @database_connection = database_connection
   end
 
-  def create(params)
+  def create(username, password)
     insert_user_sql = <<-SQL
       INSERT INTO users (username, password)
-      VALUES ('#{params[:username]}', '#{params[:password]}')
+      VALUES ('#{username}', '#{password}')
     SQL
 
     @database_connection.sql(insert_user_sql)
