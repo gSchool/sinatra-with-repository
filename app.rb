@@ -1,5 +1,6 @@
 require "sinatra"
 require "gschool_database_connection"
+require "users_table"
 
 class App < Sinatra::Application
   enable :sessions
@@ -7,6 +8,7 @@ class App < Sinatra::Application
   def initialize
     super
     @database_connection = GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
+    @users_table = UsersTable.new(@database_connection)
   end
 
   get "/" do
@@ -45,12 +47,7 @@ class App < Sinatra::Application
     if params[:username] == ""
       erb :register, :locals => {:errors => "Username is required"}
     else
-      insert_user_sql = <<-SQL
-        INSERT INTO users (username, password)
-        VALUES ('#{params[:username]}', '#{params[:password]}')
-      SQL
-
-      @database_connection.sql(insert_user_sql)
+      @users_table.create(params)
 
       redirect "/"
     end
