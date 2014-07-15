@@ -11,13 +11,24 @@ class App < Sinatra::Application
 
   get "/" do
     current_user = if session[:id]
-                     @database_connection.sql("select * from users where id = #{session[:id]}").first
+                     find_sql = <<-SQL
+                       SELECT * FROM users
+                       WHERE id = #{session[:id]}
+                     SQL
+
+                     @database_connection.sql(find_sql).first
                    end
     erb :index, :locals => {:user => current_user}
   end
 
   post "/login" do
-    user = @database_connection.sql("select * from users where username = '#{params[:username]}' and password = '#{params[:password]}'").first
+    login_sql = <<-SQL
+      SELECT * FROM users
+      WHERE username = '#{params[:username]}'
+      AND password = '#{params[:password]}'
+    SQL
+
+    user = @database_connection.sql(login_sql).first
 
     if user
       session[:id] = user.fetch("id")
@@ -32,7 +43,8 @@ class App < Sinatra::Application
 
   post "/register" do
     insert_user_sql = <<-SQL
-      INSERT INTO users (username, password) VALUES ('#{params[:username]}', '#{params[:password]}')
+      INSERT INTO users (username, password)
+      VALUES ('#{params[:username]}', '#{params[:password]}')
     SQL
 
     @database_connection.sql(insert_user_sql)
