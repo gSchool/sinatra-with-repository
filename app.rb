@@ -13,12 +13,7 @@ class App < Sinatra::Application
 
   get "/" do
     current_user = if session[:id]
-                     find_sql = <<-SQL
-                       SELECT * FROM users
-                       WHERE id = #{session[:id]}
-                     SQL
-
-                     @database_connection.sql(find_sql).first
+                     @users_table.find(session[:id])
                    end
     erb :index, :locals => {:user => current_user}
   end
