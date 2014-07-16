@@ -7,9 +7,10 @@ class UsersTable
     insert_user_sql = <<-SQL
       INSERT INTO users (username, password)
       VALUES ('#{username}', '#{password}')
+      RETURNING id
     SQL
 
-    @database_connection.sql(insert_user_sql).first
+    @database_connection.sql(insert_user_sql).first["id"]
   end
 
   def find(id)
