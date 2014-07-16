@@ -9,7 +9,7 @@ class UsersTable
       VALUES ('#{username}', '#{password}')
     SQL
 
-    @database_connection.sql(insert_user_sql)
+    @database_connection.sql(insert_user_sql).first
   end
 
   def find(id)
